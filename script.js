@@ -87,20 +87,61 @@ var upperCasedCharacters = [
   'Y',
   'Z'
 ];
+var length;
+var lowercase;
+var uppercase;
+var special;
+var numeric;
 
 // Function to prompt user for password options
 function getPasswordOptions() {
-
+  length = prompt("Enter a length");
+  lowercase = confirm("Include lower case?");
+  uppercase = confirm("Include upper case?");
+  special = confirm("Include special character?");
+  numeric = confirm("Include numbers?");
 }
 
 // Function for getting a random element from an array
 function getRandom(arr) {
-
+  return Math.floor(Math.random() * ((arr.length-1) - 1 + 1)) + 1;
 }
+
 
 // Function to generate password with user input
 function generatePassword() {
-  return "Hello";
+  var password = ""
+  if(lowercase == true || uppercase == true || special == true || numeric == true)
+  {
+    for(var i = 0; i < length;)
+    {
+      var typeChoice = Math.floor(Math.random() * (4 - 1 + 1)) + 1;;
+      if (typeChoice == 1 && special == true)
+      {
+        password += specialCharacters[getRandom(specialCharacters)]
+        i++
+      }
+      if (typeChoice == 2 && numeric == true)
+      {
+        password += numericCharacters[getRandom(numericCharacters)]
+        i++
+      }
+      if (typeChoice == 3 && lowercase == true)
+      {
+        password += lowerCasedCharacters[getRandom(lowerCasedCharacters)]
+        i++
+      }
+      if (typeChoice == 4 && uppercase == true)
+      {
+        password += upperCasedCharacters[getRandom(upperCasedCharacters)]
+        i++
+      }
+    }
+    return password;
+  }
+  else{
+    alert("At least one option must be selected")
+  }
 }
 
 // Get references to the #generate element
@@ -108,10 +149,19 @@ var generateBtn = document.querySelector('#generate');
 
 // Write password to the #password input
 function writePassword() {
+  if (length >=10 && length <= 64)
+  { 
   var password = generatePassword();
   var passwordText = document.querySelector('#password');
   passwordText.value = password;
+  }
+  else
+    {
+  alert("Length must be between 10 and 64");
+    }
 }
 
 // Add event listener to generate button
 generateBtn.addEventListener('click', writePassword);
+
+getPasswordOptions()
